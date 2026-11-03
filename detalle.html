@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detalle de carta | DUEL MARKET</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="db.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="header-bar"><a class="brand-title" href="index.html">DUEL MARKET TCG</a><div class="header-actions"><button id="theme-btn" class="button-secondary" type="button" aria-pressed="false">☾ Modo oscuro</button><span>Carrito: <a href="carrito.html"><span id="cart-count">0</span> artículos</a></span><span>Favoritos: <a href="favoritos.html"><span id="favorite-count">0</span></a></span></div></div>
+    <nav class="site-nav" aria-label="Navegación principal"><a href="index.html">Inicio</a><a href="catalogo.html">Catálogo</a><a href="detalle.html" aria-current="page">Detalle</a><a href="carrito.html">Carrito</a><a href="checkout.html">Checkout</a><a href="confirmacion.html">Confirmación</a><a href="login.html">Iniciar sesión</a><a href="favoritos.html">Favoritos</a></nav>
+  </header>
+  <main id="product-detail">
+    <p><a href="catalogo.html">← Volver al catálogo</a></p>
+    <h1 data-product-name>Detalle de carta</h1>
+    <button id="voice-btn" class="button-secondary" type="button" aria-pressed="false">Lectura por voz: desactivada</button><span id="voice-status" class="visually-hidden" role="status" aria-live="polite"></span>
+    <div class="detail-layout">
+      <section>
+        <div class="card-img-wrap"><img data-product-image src="" alt=""></div>
+        <p data-product-description></p>
+        <div class="table-wrap">
+          <table>
+            <caption>Características de la carta</caption>
+            <tbody>
+              <tr><th scope="row">Código</th><td data-product-code></td></tr>
+              <tr><th scope="row">Tipo</th><td data-product-type></td></tr>
+              <tr><th scope="row">Nivel / Rango</th><td data-product-level></td></tr>
+              <tr><th scope="row">ATK / DEF</th><td data-product-stats></td></tr>
+              <tr><th scope="row">Atributo</th><td data-product-attribute></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section>
+        <h2>Vendedores en el mercado</h2>
+        <div class="table-wrap">
+          <table>
+            <caption>Ofertas disponibles para esta carta</caption>
+            <thead><tr><th scope="col">Vendedor</th><th scope="col">Estado</th><th scope="col">Edición</th><th scope="col">Precio</th><th scope="col">Acción</th></tr></thead>
+            <tbody>
+              <tr><td>DuelistShop EC</td><td>Near Mint (NM)</td><td>1st Edition</td><td><span data-offer-price data-price-factor="1"></span></td><td><button class="button-primary" type="button" data-add-product data-seller="DuelistShop EC" data-price-factor="1">Añadir</button></td></tr>
+              <tr><td>CardKingdom UIO</td><td>Lightly Played (LP)</td><td>Unlimited</td><td><span data-offer-price data-price-factor="0.85"></span></td><td><button class="button-primary" type="button" data-add-product data-seller="CardKingdom UIO" data-price-factor="0.85">Añadir</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p id="detail-status" class="status" role="status" aria-live="polite"></p>
+        <p><a class="button button-secondary" href="carrito.html">Ver carrito</a></p>
+      </section>
+    </div>
+  </main>
+  <footer><p>DUEL MARKET TCG · Prototipo académico</p></footer>
+</body>
+</html>

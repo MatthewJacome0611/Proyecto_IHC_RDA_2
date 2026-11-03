@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Favoritos | DUEL MARKET</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="db.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="header-bar"><a class="brand-title" href="index.html">DUEL MARKET TCG</a><div class="header-actions"><button id="theme-btn" class="button-secondary" type="button" aria-pressed="false">☾ Modo oscuro</button><span>Carrito: <a href="carrito.html"><span id="cart-count">0</span> artículos</a></span><span>Favoritos: <a href="favoritos.html"><span id="favorite-count">0</span></a></span></div></div>
+    <nav class="site-nav" aria-label="Navegación principal"><a href="index.html">Inicio</a><a href="catalogo.html">Catálogo</a><a href="detalle.html">Detalle</a><a href="carrito.html">Carrito</a><a href="checkout.html">Checkout</a><a href="confirmacion.html">Confirmación</a><a href="login.html">Iniciar sesión</a><a href="favoritos.html" aria-current="page">Favoritos</a></nav>
+  </header>
+  <main>
+    <h1>Mis cartas favoritas</h1>
+    <button id="voice-btn" class="button-secondary" type="button" aria-pressed="false">Lectura por voz: desactivada</button><span id="voice-status" class="visually-hidden" role="status" aria-live="polite"></span>
+    <p>Los favoritos se guardan en este navegador.</p>
+    <div id="favorites-list" class="card-grid" aria-live="polite"></div>
+  </main>
+  <footer><p>DUEL MARKET TCG · Prototipo académico</p></footer>
+</body>
+</html>
