@@ -352,6 +352,8 @@
     const status = document.getElementById("checkout-status");
     const cardDetails = document.getElementById("card-details");
     const transferDetails = document.getElementById("transfer-details");
+    const transferProof = document.getElementById("transfer-proof");
+    const transferProofStatus = document.getElementById("transfer-proof-status");
     const syncPaymentFields = () => {
       const method = form.querySelector('input[name="payment-method"]:checked').value;
       cardDetails.hidden = method !== "card";
@@ -361,6 +363,11 @@
     };
     form.querySelectorAll('input[name="payment-method"]').forEach(input => {
       input.addEventListener("change", syncPaymentFields);
+    });
+    transferProof.addEventListener("change", () => {
+      transferProofStatus.textContent = transferProof.files.length
+        ? `Comprobante seleccionado: ${transferProof.files[0].name}`
+        : "";
     });
     syncPaymentFields();
     const cartIsEmpty = CartDB.count() === 0;

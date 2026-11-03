@@ -50,6 +50,12 @@
         <legend>Datos de transferencia de demostración</legend>
         <p><strong>Banco Pichincha (cuenta corriente)</strong><br>Cuenta: 2100849201 · Titular: Duel Market S.A.</p>
         <div class="form-group"><label for="transfer-ref">Número de transferencia / comprobante</label><input id="transfer-ref" inputmode="numeric" pattern="[0-9]{1,10}" maxlength="10" required></div>
+        <div class="form-group">
+          <label for="transfer-proof">Adjuntar comprobante bancario</label>
+          <input id="transfer-proof" name="transfer-proof" type="file" required aria-describedby="transfer-proof-help transfer-proof-status">
+          <small id="transfer-proof-help">Selecciona PNG, JPG, PDF u otro formato. En esta demostración el archivo no se transmite ni se guarda.</small>
+          <p id="transfer-proof-status" class="status" role="status" aria-live="polite"></p>
+        </div>
       </fieldset>
       <p id="checkout-status" class="status" role="status" aria-live="polite"></p>
       <div class="actions"><a class="button button-secondary" href="carrito.html">Volver al carrito</a><button class="button-primary" type="submit">Confirmar y pagar</button></div>
