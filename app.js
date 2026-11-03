@@ -27,7 +27,9 @@
   const userKey = "duel-market-user";
   const selectedProductKey = "duel-market-selected-product";
   const pendingOrderKey = "duel-market-order";
-  const orderHistoryKey = "duel-market-orders";
+  const orderHistoryKey = "historial_compras";
+  const legacyOrderHistoryKey = "duel-market-orders";
+  const recentlyViewedKey = "vistos_recientemente";
   const productsPerPage = 8;
   let catalogPage = 1;
   let voiceEnabled = false;
@@ -37,6 +39,16 @@
   const saveFavorites = ids => localStorage.setItem(favoritesKey, JSON.stringify(ids));
   const getUser = () => JSON.parse(localStorage.getItem(userKey) || "null");
   const byId = id => products.find(product => product.id === Number(id));
+  const getOrderHistory = () => {
+    const stored = localStorage.getItem(orderHistoryKey) || localStorage.getItem(legacyOrderHistoryKey);
+    if (!stored) return [];
+    const history = JSON.parse(stored);
+    if (!Array.isArray(history)) throw new TypeError("El historial de compras guardado no tiene un formato válido.");
+    if (!localStorage.getItem(orderHistoryKey)) {
+      localStorage.setItem(orderHistoryKey, JSON.stringify(history));
+    }
+    return history;
+  };
 
   function updateHeader() {
     const count = document.getElementById("cart-count");
@@ -55,7 +67,7 @@
     const loginButton = document.getElementById("login-btn");
     if (loginButton) {
       const user = getUser();
-      loginButton.textContent = user ? "Mi cuenta" : "Iniciar sesión";
+      loginButton.textContent = user ? "Mi Cuenta" : "Iniciar sesión";
       loginButton.setAttribute("aria-label", user ? `Abrir cuenta de ${user.email}` : "Iniciar sesión");
       loginButton.setAttribute("aria-expanded", String(Boolean(user && !document.getElementById("account-menu")?.hidden)));
     }
@@ -93,6 +105,14 @@
     });
   }
 
+  function verDetalle(id) {
+    const product = byId(id);
+    if (!product) return;
+    addRecentlyViewed(product.id);
+    sessionStorage.setItem(selectedProductKey, String(product.id));
+    location.href = `detalle.html?id=${encodeURIComponent(product.id)}`;
+  }
+
   function initCatalog() {
     const container = document.getElementById("product-list");
     if (!container) return;
@@ -102,11 +122,17 @@
       const query = document.getElementById("search-input").value.trim().toLocaleLowerCase();
       const type = document.getElementById("filter-type").value;
       const attribute = document.getElementById("filter-attr").value;
+      const sortOrder = document.getElementById("sort-order").value;
       const filtered = products.filter(product =>
         product.name.toLocaleLowerCase().includes(query) &&
         (type === "ALL" || product.type === type) &&
         (attribute === "ALL" || product.attribute === attribute)
       );
+      filtered.sort((a, b) => {
+        if (sortOrder === "price-desc") return b.price - a.price || a.id - b.id;
+        if (sortOrder === "name-asc") return a.name.localeCompare(b.name, "es") || a.id - b.id;
+        return a.price - b.price || a.id - b.id;
+      });
       const pages = Math.ceil(filtered.length / productsPerPage);
       catalogPage = Math.max(1, Math.min(catalogPage, pages || 1));
       const start = (catalogPage - 1) * productsPerPage;
@@ -136,7 +162,11 @@
       }
     };
     catalogRender = render;
-    form.addEventListener("input", () => {
+    document.getElementById("search-input").addEventListener("input", () => {
+      catalogPage = 1;
+      render();
+    });
+    form.addEventListener("change", () => {
       catalogPage = 1;
       render();
     });
@@ -179,6 +209,13 @@
     root.querySelectorAll("[data-offer-price]").forEach(element => {
       element.textContent = money(product.price * Number(element.dataset.priceFactor));
     });
+    const sellersTable = root.querySelector("#sellers-table tbody");
+    const sellerRows = [...sellersTable.rows].sort((a, b) =>
+      Number(a.querySelector("[data-price-factor]").dataset.priceFactor) -
+      Number(b.querySelector("[data-price-factor]").dataset.priceFactor)
+    );
+    sellersTable.replaceChildren(...sellerRows);
+    addRecentlyViewed(product.id);
     root.querySelectorAll("[data-add-product]").forEach(button => {
       const price = Number(button.dataset.priceFactor) * product.price;
       button.textContent = `Añadir por ${money(price)}`;
@@ -342,16 +379,17 @@
       const items = CartDB.getItems();
       const orderDetails = {
         id: order,
+        code: order,
         name: document.getElementById("delivery-name").value.trim(),
         address: document.getElementById("delivery-address").value.trim(),
         method: form.querySelector('input[name="payment-method"]:checked').value === "card" ? "Tarjeta (simulación)" : "Transferencia (simulación)",
         total: CartDB.total(),
-        date: new Date().toISOString(),
-        items: items.map(item => item.name)
+        date: new Date().toLocaleDateString(),
+        items
       };
       sessionStorage.setItem(pendingOrderKey, JSON.stringify(orderDetails));
-      const history = JSON.parse(localStorage.getItem(orderHistoryKey) || "[]");
-      history.unshift({ id: orderDetails.id, total: orderDetails.total, date: orderDetails.date, items: orderDetails.items });
+      const history = getOrderHistory();
+      history.unshift(orderDetails);
       localStorage.setItem(orderHistoryKey, JSON.stringify(history));
       CartDB.clear();
       location.href = "confirmacion.html";
@@ -431,9 +469,9 @@
     menu.hidden = true;
     menu.innerHTML = `
       <p class="account-menu-heading" id="account-menu-user"></p>
-      <a href="favoritos.html">Mis favoritos</a>
-      <a href="historial.html">Historial de compras</a>
-      <button class="account-menu-logout" type="button" data-action="logout">Cerrar sesión</button>`;
+      <a href="favoritos.html">Mis Favoritos</a>
+      <a href="historial.html">Historial de Compras</a>
+      <button class="account-menu-logout" type="button" data-action="logout">Cerrar Sesión</button>`;
     container.append(menu);
 
     document.addEventListener("pointerdown", event => {
@@ -523,7 +561,7 @@
   function renderOrderHistory() {
     const container = document.getElementById("order-history");
     if (!container) return;
-    const orders = JSON.parse(localStorage.getItem(orderHistoryKey) || "[]");
+    const orders = getOrderHistory();
     container.replaceChildren();
     if (!orders.length) {
       const empty = document.createElement("p");
@@ -536,13 +574,60 @@
       const article = document.createElement("article");
       article.className = "history-order";
       const title = document.createElement("h2");
-      title.textContent = `Pedido ${order.id}`;
+      title.textContent = `Pedido ${order.code || order.id}`;
       const summary = document.createElement("p");
-      summary.textContent = `${new Date(order.date).toLocaleDateString("es-EC")} · ${money(order.total)}`;
+      const date = String(order.date || "");
+      const formattedDate = date.includes("T")
+        ? new Date(`${date.slice(0, 10)}T12:00:00`).toLocaleDateString("es-EC")
+        : date;
+      summary.textContent = `${formattedDate} · ${money(order.total)}`;
       const products = document.createElement("p");
-      products.textContent = (order.items || []).join(", ");
+      products.textContent = (order.items || []).map(item =>
+        typeof item === "string" ? item : `${item.name} (${money(item.price)})`
+      ).join(", ");
       article.append(title, summary, products);
       container.append(article);
+    });
+  }
+
+  function addRecentlyViewed(id) {
+    const ids = JSON.parse(localStorage.getItem(recentlyViewedKey) || "[]");
+    if (!Array.isArray(ids)) throw new TypeError("La lista de cartas vistas recientemente no tiene un formato válido.");
+    const updated = [Number(id), ...ids.filter(item => Number(item) !== Number(id))].slice(0, 5);
+    localStorage.setItem(recentlyViewedKey, JSON.stringify(updated));
+  }
+
+  function initRecentlyViewed() {
+    const container = document.getElementById("recently-viewed");
+    const list = document.getElementById("recently-viewed-list");
+    const count = document.getElementById("recently-viewed-count");
+    if (!container || !list || !count) return;
+    const ids = JSON.parse(localStorage.getItem(recentlyViewedKey) || "[]");
+    if (!Array.isArray(ids)) throw new TypeError("La lista de cartas vistas recientemente no tiene un formato válido.");
+    const viewed = ids.map(byId).filter(Boolean).slice(0, 5);
+    count.textContent = String(viewed.length);
+    list.replaceChildren();
+    if (!viewed.length) {
+      const empty = document.createElement("li");
+      empty.textContent = "Aún no has visto cartas.";
+      list.append(empty);
+      return;
+    }
+    viewed.forEach(product => {
+      const item = document.createElement("li");
+      const link = document.createElement("a");
+      link.href = `detalle.html?id=${encodeURIComponent(product.id)}`;
+      link.setAttribute("aria-label", `Volver al detalle de ${product.name}`);
+      link.addEventListener("click", () => sessionStorage.setItem(selectedProductKey, String(product.id)));
+      const image = document.createElement("img");
+      image.src = product.image;
+      image.alt = "";
+      image.loading = "lazy";
+      const name = document.createElement("span");
+      name.textContent = product.name;
+      link.append(image, name);
+      item.append(link);
+      list.append(item);
     });
   }
 
@@ -563,8 +648,7 @@
   document.addEventListener("click", event => {
     const sellerButton = event.target.closest('[data-action="show-sellers"]');
     if (sellerButton) {
-      sessionStorage.setItem(selectedProductKey, sellerButton.dataset.id);
-      location.href = `detalle.html?id=${encodeURIComponent(sellerButton.dataset.id)}`;
+      verDetalle(sellerButton.dataset.id);
       return;
     }
 
@@ -656,5 +740,6 @@
     initConfirmation();
     initFavorites();
     initFavoriteAccess();
+    initRecentlyViewed();
   });
 })();

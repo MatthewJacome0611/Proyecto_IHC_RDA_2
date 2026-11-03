@@ -50,7 +50,7 @@
       <section>
         <h2>Vendedores en el mercado</h2>
         <div class="table-wrap">
-          <table>
+          <table id="sellers-table">
             <caption>Ofertas disponibles para esta carta</caption>
             <thead><tr><th scope="col">Vendedor</th><th scope="col">Estado</th><th scope="col">Edición</th><th scope="col">Precio</th><th scope="col">Acción</th></tr></thead>
             <tbody>
@@ -65,6 +65,12 @@
     </div>
     </div>
   </main>
+  <aside id="recently-viewed" class="recently-viewed" aria-label="Cartas vistas recientemente">
+    <details>
+      <summary>Vistos recientemente <span id="recently-viewed-count">0</span></summary>
+      <ul id="recently-viewed-list"></ul>
+    </details>
+  </aside>
   <footer><p>DUEL MARKET TCG · Prototipo académico</p></footer>
 </body>
 </html>
