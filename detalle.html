@@ -10,14 +10,27 @@
 </head>
 <body>
   <header>
-    <div class="header-bar"><a class="brand-title" href="index.html">DUEL MARKET TCG</a><div class="header-actions"><button id="theme-btn" class="button-secondary" type="button" aria-pressed="false">☾ Modo oscuro</button><span>Carrito: <a href="carrito.html"><span id="cart-count">0</span> artículos</a></span><span>Favoritos: <a href="favoritos.html"><span id="favorite-count">0</span></a></span></div></div>
-    <nav class="site-nav" aria-label="Navegación principal"><a href="index.html">Inicio</a><a href="catalogo.html">Catálogo</a><a href="detalle.html" aria-current="page">Detalle</a><a href="carrito.html">Carrito</a><a href="checkout.html">Checkout</a><a href="confirmacion.html">Confirmación</a><a href="login.html">Iniciar sesión</a><a href="favoritos.html">Favoritos</a></nav>
+    <div class="header-bar">
+      <a class="brand-title" href="index.html">DUEL MARKET TCG</a>
+      <nav class="site-nav" aria-label="Navegación principal"><a href="index.html">Inicio</a><a href="catalogo.html">Catálogo</a></nav>
+      <div class="header-actions">
+        <button id="theme-btn" class="button-secondary" type="button" aria-pressed="false">☾ Modo oscuro</button>
+        <button id="login-btn" class="button-secondary" type="button">Iniciar sesión</button>
+        <a id="btn-cart" class="button button-primary" href="carrito.html" aria-label="Abrir carrito, artículos: 0">🛒 Carrito (<span id="cart-count">0</span>)</a>
+      </div>
+    </div>
   </header>
   <main id="product-detail">
-    <p><a href="catalogo.html">← Volver al catálogo</a></p>
-    <h1 data-product-name>Detalle de carta</h1>
-    <button id="voice-btn" class="button-secondary" type="button" aria-pressed="false">Lectura por voz: desactivada</button><span id="voice-status" class="visually-hidden" role="status" aria-live="polite"></span>
-    <div class="detail-layout">
+    <section id="detail-no-selection" class="notice" hidden>
+      <h1>No se ha seleccionado ninguna carta.</h1>
+      <p>Para consultar los vendedores, primero elige una carta desde el catálogo.</p>
+      <a class="button button-primary" href="catalogo.html">Volver al Catálogo</a>
+    </section>
+    <div id="detail-content" hidden>
+      <p><a href="catalogo.html">← Volver al catálogo</a></p>
+      <h1 data-product-name>Detalle de carta</h1>
+      <button id="voice-btn" class="button-secondary" type="button" aria-pressed="false">Lectura por voz: desactivada</button><span id="voice-status" class="visually-hidden" role="status" aria-live="polite"></span>
+      <div class="detail-layout">
       <section>
         <div class="card-img-wrap"><img data-product-image src="" alt=""></div>
         <p data-product-description></p>
@@ -49,6 +62,7 @@
         <p id="detail-status" class="status" role="status" aria-live="polite"></p>
         <p><a class="button button-secondary" href="carrito.html">Ver carrito</a></p>
       </section>
+    </div>
     </div>
   </main>
   <footer><p>DUEL MARKET TCG · Prototipo académico</p></footer>

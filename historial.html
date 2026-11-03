@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Historial de compras | DUEL MARKET</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="db.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="header-bar">
+      <a class="brand-title" href="index.html">DUEL MARKET TCG</a>
+      <nav class="site-nav" aria-label="Navegación principal"><a href="index.html">Inicio</a><a href="catalogo.html">Catálogo</a></nav>
+      <div class="header-actions">
+        <button id="theme-btn" class="button-secondary" type="button" aria-pressed="false">☾ Modo oscuro</button>
+        <button id="login-btn" class="button-secondary" type="button">Iniciar sesión</button>
+        <a id="btn-cart" class="button button-primary" href="carrito.html" aria-label="Abrir carrito, artículos: 0">🛒 Carrito (<span id="cart-count">0</span>)</a>
+      </div>
+    </div>
+  </header>
+  <main>
+    <h1>Historial de compras</h1>
+    <button id="voice-btn" class="button-secondary" type="button" aria-pressed="false">Lectura por voz: desactivada</button><span id="voice-status" class="visually-hidden" role="status" aria-live="polite"></span>
+    <p id="history-access-status" class="notice" role="status" aria-live="polite" hidden>Inicia sesión para consultar tus pedidos.</p>
+    <section id="order-history" class="order-history" aria-label="Pedidos realizados" hidden></section>
+  </main>
+  <footer><p>DUEL MARKET TCG · Prototipo académico</p></footer>
+</body>
+</html>

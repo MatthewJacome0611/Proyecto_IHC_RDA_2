@@ -12,22 +12,38 @@
   <header>
     <div class="header-bar">
       <a class="brand-title" href="index.html">DUEL MARKET TCG</a>
+      <nav class="site-nav" aria-label="Navegación principal">
+        <a href="index.html" aria-current="page">Inicio</a>
+        <a href="catalogo.html">Catálogo</a>
+      </nav>
       <div class="header-actions">
         <button id="theme-btn" class="button-secondary" type="button" aria-pressed="false">☾ Modo oscuro</button>
-        <span>Carrito: <a href="carrito.html"><span id="cart-count">0</span> artículos</a></span>
-        <span>Favoritos: <a href="favoritos.html"><span id="favorite-count">0</span></a></span>
+        <button id="login-btn" class="button-secondary" type="button">Iniciar sesión</button>
+        <a id="btn-cart" class="button button-primary" href="carrito.html" aria-label="Abrir carrito, artículos: 0">🛒 Carrito (<span id="cart-count">0</span>)</a>
       </div>
     </div>
-    <nav class="site-nav" aria-label="Navegación principal">
-      <a href="index.html" aria-current="page">Inicio</a><a href="catalogo.html">Catálogo</a><a href="detalle.html">Detalle</a><a href="carrito.html">Carrito</a><a href="checkout.html">Checkout</a><a href="confirmacion.html">Confirmación</a><a href="login.html">Iniciar sesión</a><a href="favoritos.html">Favoritos</a>
-    </nav>
   </header>
   <main>
-    <h1>Bienvenido a DUEL MARKET TCG</h1>
-    <button id="voice-btn" class="button-secondary" type="button" aria-pressed="false">Lectura por voz: desactivada</button><span id="voice-status" class="visually-hidden" role="status" aria-live="polite"></span>
-    <p>Encuentra cartas de Yu-Gi-Oh! de vendedores verificados y organiza tus favoritos.</p>
-    <p><a class="button button-primary" href="catalogo.html">Explorar el catálogo</a></p>
-    <p>Prototipo académico. Los pedidos y el inicio de sesión son demostraciones y no procesan pagos reales.</p>
+    <section class="hero-banner">
+      <div>
+        <p class="eyebrow">EL MERCADO PARA DUELISTAS</p>
+        <h1>Encuentra la carta que define tu próximo duelo.</h1>
+        <p>Explora cartas seleccionadas, compara vendedores y completa tu colección con confianza.</p>
+        <div class="actions">
+          <a class="button button-primary" href="catalogo.html">Explorar catálogo</a>
+          <a class="button button-secondary" href="favoritos.html">Mis favoritos</a>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true"><span>DUEL</span><span>MARKET</span><span>TCG</span></div>
+    </section>
+    <section class="featured-section" aria-labelledby="featured-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">SELECCIÓN DE LA SEMANA</p><h2 id="featured-title">Cartas destacadas</h2></div>
+        <a href="catalogo.html">Ver todo el catálogo →</a>
+      </div>
+      <div id="featured-products" class="card-grid"></div>
+    </section>
+    <p class="notice">Prototipo académico: los pagos y el inicio de sesión son simulados.</p>
   </main>
   <footer><p>DUEL MARKET TCG · Prototipo académico</p></footer>
 </body>

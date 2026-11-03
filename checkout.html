@@ -10,8 +10,15 @@
 </head>
 <body>
   <header>
-    <div class="header-bar"><a class="brand-title" href="index.html">DUEL MARKET TCG</a><div class="header-actions"><button id="theme-btn" class="button-secondary" type="button" aria-pressed="false">☾ Modo oscuro</button><span>Carrito: <a href="carrito.html"><span id="cart-count">0</span> artículos</a></span><span>Favoritos: <a href="favoritos.html"><span id="favorite-count">0</span></a></span></div></div>
-    <nav class="site-nav" aria-label="Navegación principal"><a href="index.html">Inicio</a><a href="catalogo.html">Catálogo</a><a href="detalle.html">Detalle</a><a href="carrito.html">Carrito</a><a href="checkout.html" aria-current="page">Checkout</a><a href="confirmacion.html">Confirmación</a><a href="login.html">Iniciar sesión</a><a href="favoritos.html">Favoritos</a></nav>
+    <div class="header-bar">
+      <a class="brand-title" href="index.html">DUEL MARKET TCG</a>
+      <nav class="site-nav" aria-label="Navegación principal"><a href="index.html">Inicio</a><a href="catalogo.html">Catálogo</a></nav>
+      <div class="header-actions">
+        <button id="theme-btn" class="button-secondary" type="button" aria-pressed="false">☾ Modo oscuro</button>
+        <button id="login-btn" class="button-secondary" type="button">Iniciar sesión</button>
+        <a id="btn-cart" class="button button-primary" href="carrito.html" aria-label="Abrir carrito, artículos: 0">🛒 Carrito (<span id="cart-count">0</span>)</a>
+      </div>
+    </div>
   </header>
   <main>
     <h1>Finalizar compra</h1>
@@ -21,23 +28,13 @@
     <form id="checkout-form">
       <div class="form-row">
         <div class="form-group"><label for="delivery-name">Nombre de quien recibe</label><input id="delivery-name" name="delivery-name" autocomplete="name" required minlength="3"></div>
-        <div class="form-group"><label for="delivery-address">Calle y dirección</label><input id="delivery-address" name="delivery-address" autocomplete="street-address" required minlength="5"></div>
+        <div class="form-group"><label for="delivery-address">Dirección de entrega</label><textarea id="delivery-address" name="delivery-address" autocomplete="street-address" rows="3" placeholder="Escribe calle, avenida, número de casa, sector y ciudad" required minlength="8"></textarea><small>Ingresa la dirección completa por escrito: calles, avenidas, número y referencias.</small></div>
       </div>
-      <button id="map-toggle" class="button-secondary" type="button" aria-expanded="false" aria-controls="map-panel">Elegir dirección en el mapa</button>
-      <section id="map-panel" hidden aria-label="Puntos de entrega de demostración en Quito">
-        <p>Selecciona un punto de referencia en el mapa de demostración:</p>
-        <div class="map-picker">
-          <span class="map-label" style="top:12%;left:8%">La Carolina</span><span class="map-label" style="top:72%;left:62%">Centro</span><span class="map-label" style="top:15%;left:66%">Iñaquito</span>
-          <button class="map-point" type="button" style="top:34%;left:34%" data-address="Av. Amazonas y Naciones Unidas, La Carolina, Quito" aria-label="Seleccionar Av. Amazonas y Naciones Unidas, La Carolina" aria-pressed="false">1</button>
-          <button class="map-point" type="button" style="top:50%;left:70%" data-address="Av. 6 de Diciembre y Shyris, Iñaquito, Quito" aria-label="Seleccionar Av. 6 de Diciembre y Shyris, Iñaquito" aria-pressed="false">2</button>
-          <button class="map-point" type="button" style="top:76%;left:38%" data-address="García Moreno y Chile, Centro Histórico, Quito" aria-label="Seleccionar García Moreno y Chile, Centro Histórico" aria-pressed="false">3</button>
-        </div>
-      </section>
       <fieldset>
         <legend>Método de pago (simulación)</legend>
         <div class="form-row">
-          <div><input id="payment-card" name="payment-method" type="radio" value="card" checked><label for="payment-card">Tarjeta</label></div>
-          <div><input id="payment-transfer" name="payment-method" type="radio" value="transfer"><label for="payment-transfer">Transferencia bancaria</label></div>
+          <div class="radio-option"><input id="payment-card" name="payment-method" type="radio" value="card" checked><label for="payment-card">Tarjeta</label></div>
+          <div class="radio-option"><input id="payment-transfer" name="payment-method" type="radio" value="transfer"><label for="payment-transfer">Transferencia bancaria</label></div>
         </div>
       </fieldset>
       <fieldset id="card-details">
